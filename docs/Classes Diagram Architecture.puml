@@ -1,0 +1,64 @@
+@startuml
+!theme vibrant
+top to bottom direction
+
+
+package "Singleton" {
+    class MenuView {
+        + abrirPantallaClientes(): void
+        + abrirPantallaDistribuidores(): void
+        + abrirPantallaProductos(): void
+        + abrirPantallaPedidos(): void
+        + abrirPantallaEntregas(): void
+    }
+
+    class DatabaseConnection {
+        - Connection connection
+        + getConnection(): Connection
+        + closeConnection(): void
+    }
+}
+
+package "MVC" {
+    class Cliente {
+    }
+
+    class ClienteControlador {
+        + cargarClienteParaEdicion(Cliente cliente): void
+        + onGuardarCliente(): void
+        + onCancelar(): void
+        + initialize(): void
+    }
+
+    class ClienteModelo {
+        + guardarCliente(Cliente cliente): boolean
+        + obtenerClientes(Cliente cliente): List<Cliente>
+        + buscarClientes(String criterio): List<Cliente>
+        + obtenerClientePorPedido(int pedidoId): Cliente
+    }
+
+package "DAO" {
+    class ClienteDAO {
+        + obtenerClientePorPedido(int pedidoId): Cliente
+        + guardarCliente(Cliente cliente): boolean
+        + buscarClientes(String criterio): List<Cliente>
+    }
+}
+
+    class ClienteVista {
+        + onNuevoCliente(): void
+        + onModificarCliente(): void
+        + onCancelar(): void
+    }
+}
+
+' Relaciones
+MenuView --> ClienteControlador
+ClienteControlador --> ClienteModelo
+ClienteModelo--> ClienteDAO
+ClienteControlador --> ClienteVista
+ClienteDAO --> DatabaseConnection
+ClienteDAO --> Cliente
+ClienteVista --> Cliente
+
+@enduml

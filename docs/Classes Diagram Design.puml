@@ -1,0 +1,154 @@
+@startuml
+!theme vibrant
+
+package "Factories" {
+  class PersonaFactory {
+    + Persona createPersona()
+  }
+
+  class ClienteFactory {
+    + Cliente createCliente()
+  }
+
+  class DistribuidorFactory {
+    + Distribuidor createDistribuidor()
+  }
+
+  PersonaFactory <|.. ClienteFactory
+  PersonaFactory <|.. DistribuidorFactory
+}
+
+package "States" {
+  interface EstadoPedido {
+    + void procesar(Pedido pedido)
+  }
+
+  class PedidoCotizado {
+    + void procesar(Pedido pedido)
+  }
+
+  class PedidoConfirmado {
+    + void procesar(Pedido pedido)
+  }
+
+  class PedidoCancelado {
+    + void procesar(Pedido pedido)
+  }
+
+  class PedidoDespachado {
+    + void procesar(Pedido pedido)
+  }
+
+  class PedidoEntregado {
+    + void procesar(Pedido pedido)
+  }
+
+  EstadoPedido <|.. PedidoCotizado
+  EstadoPedido <|.. PedidoConfirmado
+  EstadoPedido <|.. PedidoCancelado
+  EstadoPedido <|.. PedidoDespachado
+  EstadoPedido <|.. PedidoEntregado
+}
+
+  class Distribuidor {
+    + void entregarPedido(Pedido pedido)
+    + void rendicionPedidos(boolean entregados)
+  }
+
+  abstract class Persona {
+    - String nroDocumento
+    - String apellido
+    - String nombre
+  }
+
+  class Cliente {
+    - String razonSocial
+    - long telefono
+    + void registrarPedido(Pedido pedido)
+    + void cancelarPedido(Pedido pedido)
+  }
+
+  class Pedido {
+    - date fechaEntrega
+    - time horaentrega
+    - String observaciones
+    - boolean cancelado
+  }
+
+  class DetallePedido {
+    - int cantidad
+    - double precio
+  }
+
+  class Producto {
+    - String nombre
+    - int tamano
+    - String unidadMedida
+    - double precio
+  }
+
+  class Domicilio {
+    - String calle
+    - String depto
+    - int piso
+  }
+
+  class Barrio {
+    - String nombre
+  }
+
+  class Zona {
+    - String nombre
+    + Date getEstimacionEntrega()
+  }
+
+  enum PeriodoVenta {
+    + INVIERNO
+    + VERANO
+  }
+
+  enum MedioPago {
+    + CONTADO
+    + CHEQUE
+    + ELECTRONICO
+  }
+
+  enum TipoDocumento {
+    + DNI
+    + PASAPORTE
+    + LC
+    + LE
+  }
+
+  class Factura {
+    - int numero
+    - boolean anulada
+    + anular()
+    + agregarPago(Pago pago)
+  }
+
+  class Pagos {
+    - importe
+    - String datosBancarios
+  }
+
+  Persona <|-- Distribuidor
+  Persona <|-- Cliente
+  Distribuidor "1" o-- "1" Zona
+  Zona "1" o-- "*" Barrio
+  Barrio "0..1" o-- "*" Domicilio
+  Cliente "1" o-- "*" Pedido
+  Factura "0..1" -- "1" Pedido
+  Pedido "1" *-- "*" DetallePedido
+  DetallePedido "1" -- "1" Producto
+  Pedido "1" *-- "1" PeriodoVenta
+  Factura "1" *-- "*" Pagos
+  Pagos "1" *-- "1" MedioPago
+  Cliente "1" *-- "1" Domicilio
+  Persona "1" *-- "1" TipoDocumento
+  Pedido "1" o-- "1" EstadoPedido
+  Persona <.. PersonaFactory
+  Cliente <.. ClienteFactory
+  Distribuidor <.. DistribuidorFactory
+
+@enduml

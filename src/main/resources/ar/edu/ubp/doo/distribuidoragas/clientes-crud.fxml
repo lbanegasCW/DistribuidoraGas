@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="462.0" prefWidth="371.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1"
+            fx:controller="ar.edu.ubp.doo.distribuidoragas.controller.ClienteController">
+    <VBox alignment="TOP_LEFT" layoutX="26.0" layoutY="3.0" prefHeight="455.0" prefWidth="318.0" spacing="10">
+      <Pane prefHeight="468.0" prefWidth="318.0">
+         <children>
+                <!-- Tipo de documento -->
+              <Label layoutX="-1.0" layoutY="72.0" text="Tipo de Documento:" />
+              <ComboBox fx:id="tipoDocumentoComboBox" layoutX="-1.0" layoutY="99.0" prefHeight="25.0" prefWidth="149.0" />
+      
+                <!-- Número de documento -->
+              <Label layoutX="166.0" layoutY="73.0" text="Número de Documento:" />
+              <TextField fx:id="numeroDocumentoField" layoutX="166.0" layoutY="100.0" />
+      
+                <!-- Nombre -->
+              <Label layoutY="134.0" text="Nombre:" />
+              <TextField fx:id="nombreField" layoutY="161.0" />
+      
+                <!-- Apellido -->
+              <Label layoutX="166.0" layoutY="135.0" text="Apellido:" />
+              <TextField fx:id="apellidoField" layoutX="166.0" layoutY="162.0" />
+      
+                <!-- Razón Social -->
+              <Label layoutY="201.0" text="Razón Social:" />
+              <TextField fx:id="razonSocialField" layoutY="228.0" />
+      
+                <!-- Teléfono -->
+              <Label layoutX="166.0" layoutY="202.0" text="Teléfono:" />
+              <TextField fx:id="telefonoField" layoutX="166.0" layoutY="229.0" />
+      
+                <!-- Calle -->
+              <Label layoutY="268.0" text="Calle:" />
+              <TextField fx:id="calleField" layoutY="295.0" />
+      
+                <!-- Depto -->
+              <Label layoutX="166.0" layoutY="269.0" text="Depto:" />
+              <TextField fx:id="deptoField" layoutX="166.0" layoutY="296.0" />
+      
+                <!-- Piso -->
+              <Label layoutY="331.0" text="Piso:" />
+              <TextField fx:id="pisoField" layoutY="358.0" />
+      
+                <!-- Barrio -->
+              <Label layoutX="167.0" layoutY="331.0" text="Barrio:" />
+              <ComboBox fx:id="barrioComboBox" layoutX="165.0" layoutY="359.0" prefHeight="25.0" prefWidth="149.0">
+        </ComboBox>
+      
+        <Button layoutY="409.0" onAction="#onGuardarCliente" prefHeight="35.0" prefWidth="69.0" text="Guardar" />
+        <Button layoutX="82.0" onAction="#onCancelar" layoutY="409.0" prefHeight="35.0" prefWidth="69.0" text="Cancelar" />
+        <Label layoutY="12.0" text="Cliente">
+           <font>
+              <Font size="24.0" />
+           </font>
+        </Label>
+        <Line endX="237.0" layoutX="108.0" layoutY="55.0" startX="-134.0" stroke="#00000041" />
+         </children>
+      </Pane>
+
+          </VBox>
+</AnchorPane>

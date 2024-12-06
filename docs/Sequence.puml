@@ -1,0 +1,440 @@
+@startuml
+actor Operador
+boundary UI
+control GestorClientesController
+database BaseDeDatos
+entity ClienteEntity
+
+== Gestionar Clientes ==
+Operador -> UI : gestionarClientes()
+activate UI
+    UI -> Operador : mostrarOpciones()
+    Operador -> UI : consultarClientes(criterios)
+    UI -> GestorClientesController : buscarClientes(criterios)
+        activate GestorClientesController
+            GestorClientesController -> BaseDeDatos : buscarClientes(criterios)
+            activate BaseDeDatos
+                BaseDeDatos --> GestorClientesController : listaClientes
+            deactivate BaseDeDatos
+            GestorClientesController --> UI : listaClientes
+        deactivate GestorClientesController
+    UI --> Operador : mostrarResultados()
+deactivate UI
+
+== Registrar Cliente ==
+Operador -> UI : nuevoCliente()
+activate UI
+    UI -> Operador : ingresarDatosCliente()
+    Operador -> UI : guardarCliente(datos)
+    UI -> GestorClientesController : registrarCliente(datos)
+        activate GestorClientesController
+            GestorClientesController -> ClienteEntity : new ClienteEntity(datos)
+            activate ClienteEntity
+            GestorClientesController -> BaseDeDatos : guardarCliente(cliente)
+            activate BaseDeDatos
+                BaseDeDatos --> GestorClientesController : confirmacion()
+            deactivate BaseDeDatos
+            deactivate ClienteEntity
+            GestorClientesController --> UI : clienteRegistrado()
+        deactivate GestorClientesController
+    UI --> Operador : clienteRegistrado()
+deactivate UI
+
+== Modificar Cliente ==
+Operador -> UI : modificarCliente(id)
+activate UI
+    UI -> GestorClientesController : obtenerCliente(id)
+        activate GestorClientesController
+            GestorClientesController -> BaseDeDatos : obtenerClientePorID(id)
+            activate BaseDeDatos
+                BaseDeDatos --> GestorClientesController : cliente
+            deactivate BaseDeDatos
+            GestorClientesController --> UI : cliente
+        deactivate GestorClientesController
+    UI -> Operador : mostrarDatosCliente(cliente)
+    Operador -> UI : modificarDatosCliente(nuevosDatos)
+    UI -> GestorClientesController : actualizarCliente(cliente, nuevosDatos)
+        activate GestorClientesController
+            GestorClientesController -> ClienteEntity : actualizar(nuevosDatos)
+            activate ClienteEntity
+            GestorClientesController -> BaseDeDatos : guardarCambios(cliente)
+            activate BaseDeDatos
+                BaseDeDatos --> GestorClientesController : confirmacion()
+            deactivate BaseDeDatos
+            deactivate ClienteEntity
+            GestorClientesController --> UI : clienteModificado()
+        deactivate GestorClientesController
+    UI --> Operador : clienteModificado()
+deactivate UI
+
+@enduml
+
+
+@startuml
+actor Operador
+boundary UI
+control GestorDistribuidoresController
+database BaseDeDatos
+entity DistribuidorEntity
+
+== Gestionar Distribuidores ==
+Operador -> UI : gestionarDistribuidores()
+activate UI
+    UI -> Operador : mostrarOpciones()
+    Operador -> UI : consultarDistribuidores(criterios)
+    UI -> GestorDistribuidoresController : buscarDistribuidores(criterios)
+        activate GestorDistribuidoresController
+            GestorDistribuidoresController -> BaseDeDatos : buscarDistribuidores(criterios)
+            activate BaseDeDatos
+                BaseDeDatos --> GestorDistribuidoresController : listaDistribuidores
+            deactivate BaseDeDatos
+            GestorDistribuidoresController --> UI : listaDistribuidores
+        deactivate GestorDistribuidoresController
+    UI --> Operador : mostrarResultados()
+deactivate UI
+
+== Registrar Distribuidor ==
+Operador -> UI : nuevoDistribuidor()
+activate UI
+    UI -> Operador : ingresarDatosDistribuidor()
+    Operador -> UI : guardarDistribuidor(datos)
+    UI -> GestorDistribuidoresController : registrarDistribuidor(datos)
+        activate GestorDistribuidoresController
+            GestorDistribuidoresController -> DistribuidorEntity : new DistribuidorEntity(datos)
+            activate DistribuidorEntity
+            GestorDistribuidoresController -> BaseDeDatos : guardarDistribuidor(distribuidor)
+            activate BaseDeDatos
+                BaseDeDatos --> GestorDistribuidoresController : confirmacion()
+            deactivate BaseDeDatos
+            deactivate DistribuidorEntity
+            GestorDistribuidoresController --> UI : distribuidorRegistrado()
+        deactivate GestorDistribuidoresController
+    UI --> Operador : distribuidorRegistrado()
+deactivate UI
+
+== Modificar Distribuidor ==
+Operador -> UI : modificarDistribuidor(id)
+activate UI
+    UI -> GestorDistribuidoresController : obtenerDistribuidor(id)
+        activate GestorDistribuidoresController
+            GestorDistribuidoresController -> BaseDeDatos : obtenerDistribuidorPorID(id)
+            activate BaseDeDatos
+                BaseDeDatos --> GestorDistribuidoresController : distribuidor
+            deactivate BaseDeDatos
+            GestorDistribuidoresController --> UI : distribuidor
+        deactivate GestorDistribuidoresController
+    UI -> Operador : mostrarDatosDistribuidor(distribuidor)
+    Operador -> UI : modificarDatosDistribuidor(nuevosDatos)
+    UI -> GestorDistribuidoresController : actualizarDistribuidor(distribuidor, nuevosDatos)
+        activate GestorDistribuidoresController
+            GestorDistribuidoresController -> DistribuidorEntity : actualizar(nuevosDatos)
+            activate DistribuidorEntity
+            GestorDistribuidoresController -> BaseDeDatos : guardarCambios(distribuidor)
+            activate BaseDeDatos
+                BaseDeDatos --> GestorDistribuidoresController : confirmacion()
+            deactivate BaseDeDatos
+            deactivate DistribuidorEntity
+            GestorDistribuidoresController --> UI : distribuidorModificado()
+        deactivate GestorDistribuidoresController
+    UI --> Operador : distribuidorModificado()
+deactivate UI
+
+@enduml
+
+
+
+@startuml
+actor Operador
+boundary UI
+control GestorProductosController
+database BaseDeDatos
+entity ProductoEntity
+
+== Gestionar Productos ==
+Operador -> UI : gestionarProductos()
+activate UI
+    UI -> Operador : mostrarOpciones()
+    Operador -> UI : consultarProductos(criterios)
+    UI -> GestorProductosController : buscarProductos(criterios)
+        activate GestorProductosController
+            GestorProductosController -> BaseDeDatos : buscarProductos(criterios)
+            activate BaseDeDatos
+                BaseDeDatos --> GestorProductosController : listaProductos
+            deactivate BaseDeDatos
+            GestorProductosController --> UI : listaProductos
+        deactivate GestorProductosController
+    UI --> Operador : mostrarResultados()
+deactivate UI
+
+== Registrar Producto ==
+Operador -> UI : nuevoProducto()
+activate UI
+    UI -> Operador : ingresarDatosProducto()
+    Operador -> UI : guardarProducto(datos)
+    UI -> GestorProductosController : registrarProducto(datos)
+        activate GestorProductosController
+            GestorProductosController -> ProductoEntity : new ProductoEntity(datos)
+            activate ProductoEntity
+            GestorProductosController -> BaseDeDatos : guardarProducto(producto)
+            activate BaseDeDatos
+                BaseDeDatos --> GestorProductosController : confirmacion()
+            deactivate BaseDeDatos
+            deactivate ProductoEntity
+            GestorProductosController --> UI : productoRegistrado()
+        deactivate GestorProductosController
+    UI --> Operador : productoRegistrado()
+deactivate UI
+
+== Modificar Producto ==
+Operador -> UI : modificarProducto(id)
+activate UI
+    UI -> GestorProductosController : obtenerProducto(id)
+        activate GestorProductosController
+            GestorProductosController -> BaseDeDatos : obtenerProductoPorID(id)
+            activate BaseDeDatos
+                BaseDeDatos --> GestorProductosController : producto
+            deactivate BaseDeDatos
+            GestorProductosController --> UI : producto
+        deactivate GestorProductosController
+    UI -> Operador : mostrarDatosProducto(producto)
+    Operador -> UI : modificarDatosProducto(nuevosDatos)
+    UI -> GestorProductosController : actualizarProducto(producto, nuevosDatos)
+        activate GestorProductosController
+            GestorProductosController -> ProductoEntity : actualizar(nuevosDatos)
+            activate ProductoEntity
+            GestorProductosController -> BaseDeDatos : guardarCambios(producto)
+            activate BaseDeDatos
+                BaseDeDatos --> GestorProductosController : confirmacion()
+            deactivate BaseDeDatos
+            deactivate ProductoEntity
+            GestorProductosController --> UI : productoModificado()
+        deactivate GestorProductosController
+    UI --> Operador : productoModificado()
+deactivate UI
+
+@enduml
+
+
+
+@startuml
+actor Operador
+boundary UI
+control GestorPedidosController
+database BaseDeDatos
+entity PedidoDetalleEntity
+entity PedidoEntity
+entity FacturaEntity
+
+== Gestionar Pedidos ==
+Operador -> UI : gestionarPedidos()
+activate UI
+    UI -> Operador : mostrarOpciones()
+    Operador -> UI : consultarPedidos(criterios)
+    UI -> GestorPedidosController : buscarPedidos(criterios)
+        activate GestorPedidosController
+            GestorPedidosController -> BaseDeDatos : obtenerPedidos(criterios)
+                activate BaseDeDatos
+                    BaseDeDatos --> GestorPedidosController : listaPedidos
+                deactivate BaseDeDatos
+            GestorPedidosController --> UI : mostrarPedidos(listaPedidos)
+        deactivate GestorPedidosController
+    UI --> Operador : mostrarResultados()
+deactivate UI
+
+== Registrar Pedido ==
+Operador -> UI : registrarPedido()
+activate UI
+    UI -> GestorPedidosController : nuevoPedido()
+        activate GestorPedidosController
+            GestorPedidosController -> BaseDeDatos : obtenerClientes()
+                activate BaseDeDatos
+                    BaseDeDatos --> GestorPedidosController : clientes
+                deactivate BaseDeDatos
+        GestorPedidosController --> UI : listaClientes
+        deactivate GestorPedidosController
+    UI -> Operador : mostrarDatosClientes()
+    Operador -> UI : seleccionarCliente()
+    UI -> GestorPedidosController : seleccionarCliente()
+        activate GestorPedidosController
+            GestorPedidosController -> BaseDeDatos : obtenerDistribuidor()
+                activate BaseDeDatos
+                    BaseDeDatos --> GestorPedidosController : distribuidor
+                deactivate BaseDeDatos
+        GestorPedidosController --> UI : distribuidor
+        deactivate GestorPedidosController
+    UI -> Operador : mostrarDatosDistribuidor()
+    Operador -> UI : guardarProducto(datos)
+
+    UI -> GestorPedidosController : registrarProducto(datos)
+        activate GestorPedidosController 
+            GestorPedidosController -> PedidoEntity: new PedidoEntity(datos)
+            activate PedidoEntity
+            GestorPedidosController -> PedidoDetalleEntity: new PedidoDetalleEntity(datos)
+            activate PedidoDetalleEntity
+            GestorPedidosController -> BaseDeDatos : guardarPedido(pedido, pedidoDetalle)
+            activate BaseDeDatos
+                BaseDeDatos --> GestorPedidosController : confirmacion
+            deactivate PedidoEntity
+            deactivate PedidoDetalleEntity
+            deactivate BaseDeDatos
+    GestorPedidosController --> UI : pedidoRegistrado
+    deactivate GestorPedidosController 
+    UI --> Operador : pedidoRegistrado
+deactivate UI
+
+== Cancelar Pedido ==
+Operador -> UI : cancelarPedido(pedido)
+activate UI
+    UI -> GestorPedidosController : cancelarPedido(pedido)
+        activate GestorPedidosController
+            GestorPedidosController -> BaseDeDatos : obtenerFactura(pedido)
+                activate BaseDeDatos
+                    BaseDeDatos --> GestorPedidosController : factura
+                deactivate BaseDeDatos
+            alt facturaEmitida
+                GestorPedidosController -> BaseDeDatos : anularFactura(factura)
+                    activate BaseDeDatos
+                        BaseDeDatos --> GestorPedidosController : facturaAnulada
+                    deactivate BaseDeDatos
+            end
+            GestorPedidosController -> BaseDeDatos : anularPedido(pedido)
+                activate BaseDeDatos
+                    BaseDeDatos --> GestorPedidosController : pedidoAnulado
+                deactivate BaseDeDatos
+         GestorPedidosController --> UI: pedidoCancelado()
+        deactivate GestorPedidosController
+    UI --> Operador : pedidoCancelado()
+deactivate UI
+
+== Obtener Pedidos Pendientes ==
+Operador -> UI : obtenerPedidosPendientes()
+activate UI
+    UI -> GestorPedidosController : generarFacturaPedidosPendientes()
+        activate GestorPedidosController
+            GestorPedidosController -> BaseDeDatos : obtenerPedidosPendientes()
+                activate BaseDeDatos
+                    BaseDeDatos --> GestorPedidosController : listaPedidosPendientes
+                deactivate BaseDeDatos
+            GestorPedidosController -> FacturaEntity : new FacturaEntity()
+            GestorPedidosController -> BaseDeDatos : guardarFacturas(FacturaEntity)
+                activate BaseDeDatos
+                    BaseDeDatos --> GestorPedidosController : confirmacion()
+                deactivate BaseDeDatos
+            GestorPedidosController --> UI : mostrarListadoDistribuidor(listaPedidosPendientes)
+        deactivate GestorPedidosController
+    UI --> Operador : mostrarListado()
+deactivate UI
+
+@enduml
+
+
+@startuml
+actor Operador
+boundary UI
+control GestorEntregasController
+entity PedidoEntity
+entity PagoEntity
+database BaseDeDatos
+
+== Gestionar Entregas ==
+Operador -> UI : gestionarEntregas()
+activate UI
+    UI -> Operador : mostrarOpciones()
+    Operador -> UI : consultarEntregas(filtros)
+    UI -> GestorEntregasController : buscarEntregas(filtros)
+        activate GestorEntregasController
+            GestorEntregasController -> BaseDeDatos : obtenerEntregas(filtros)
+                activate BaseDeDatos
+                    BaseDeDatos --> GestorEntregasController : listaEntregas
+                deactivate BaseDeDatos
+            GestorEntregasController --> UI : mostrarEntregas(listaEntregas)
+        deactivate GestorEntregasController
+    UI --> Operador : mostrarResultados()
+deactivate UI
+
+
+== Registrar Entrega ==
+Operador -> UI : nuevaEntrega()
+activate UI
+    UI -> GestorEntregasController : obtenerDistribuidores()
+        activate GestorEntregasController
+            GestorEntregasController -> BaseDeDatos : obtenerDistribuidores()
+                activate BaseDeDatos
+                    BaseDeDatos --> GestorEntregasController : listaDistribuidores
+                deactivate BaseDeDatos
+            GestorEntregasController --> UI : vistaDistribuidores
+        deactivate GestorEntregasController
+    Operador -> UI : seleccionarDistribuidor()
+    UI -> GestorEntregasController : obtenerPedidos()
+        activate GestorEntregasController
+            GestorEntregasController -> BaseDeDatos : obtenerPedidos()
+                activate BaseDeDatos
+                    BaseDeDatos --> GestorEntregasController : listaPedidos
+                deactivate BaseDeDatos
+            GestorEntregasController --> UI : vistaPedidos
+        deactivate GestorEntregasController
+    Operador -> UI : registrarEntrega(pedido, datos)
+    UI -> GestorEntregasController : guardarEntrega(pedido, datos)
+        activate GestorEntregasController
+            GestorEntregasController -> PagoEntity : crearPago(datos)
+                activate PagoEntity
+                    PagoEntity --> GestorEntregasController : pagoCreado
+                deactivate PagoEntity
+            GestorEntregasController -> BaseDeDatos : guardarPago(pagoCreado)
+                activate BaseDeDatos
+                    BaseDeDatos --> GestorEntregasController : pagoGuardado
+                deactivate BaseDeDatos
+            GestorEntregasController -> BaseDeDatos : actualizarPedido(pedido)
+                activate BaseDeDatos
+                    BaseDeDatos --> GestorEntregasController : pedidoGuardado
+                deactivate BaseDeDatos
+            GestorEntregasController--> UI: registroExitoso
+        deactivate GestorEntregasController
+    UI --> Operador : entregaGuardada()
+deactivate UI
+
+== Consultar Entrega ==
+Operador -> UI : consultarEntrega(entregaSeleccionada)
+activate UI
+    UI -> GestorEntregasController : obtenerDetalleEntrega(entregaSeleccionada)
+        activate GestorEntregasController
+            GestorEntregasController -> BaseDeDatos : obtenerPedidosEntrega(entregaSeleccionada)
+                activate BaseDeDatos
+                    BaseDeDatos --> GestorEntregasController : listaPedidos
+                deactivate BaseDeDatos
+            GestorEntregasController --> UI : vistaPedidos
+        deactivate GestorEntregasController
+    UI --> Operador : mostrarDetalle()
+deactivate UI
+
+== Consultar Ingresos por Periodo ==
+Operador -> UI : consultarIngresos()
+activate UI
+Operador -> UI : seleccionarPeriodo()
+    UI -> GestorEntregasController : obtenerIngresosPorPeriodo(periodo)
+        activate GestorEntregasController
+            GestorEntregasController -> BaseDeDatos : obtenerEntregasPorPeriodo(periodo)
+                activate BaseDeDatos
+                    BaseDeDatos --> GestorEntregasController : listaEntregasConImportes
+                deactivate BaseDeDatos
+            GestorEntregasController --> UI : vistaEntregasConImportes
+        deactivate GestorEntregasController
+    UI --> Operador : mostrarResultados()
+deactivate UI
+
+== Consultar Ingresos por Día ==
+Operador -> UI : consultarIngresos()
+activate UI
+Operador -> UI : seleccionarDia()
+    UI -> GestorEntregasController : obtenerIngresosPorDia(dia)
+        activate GestorEntregasController
+            GestorEntregasController -> BaseDeDatos : obtenerEntregasPorDia(dia)
+                activate BaseDeDatos
+                    BaseDeDatos --> GestorEntregasController : listaEntregasConImportes
+                deactivate BaseDeDatos
+            GestorEntregasController --> UI : vistaEntregasConImportes
+        deactivate GestorEntregasController
+    UI --> Operador : mostrarResultados()
+deactivate UI
+
+@enduml

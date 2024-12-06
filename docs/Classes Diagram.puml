@@ -1,0 +1,108 @@
+@startuml
+!theme vibrant
+
+skinparam linetype ortho
+
+class Distribuidor {
++ void entregarPedido(Pedido pedido)
++ void rendicionPedidos(boolean entregados)
+}
+
+abstract class Persona {
+- String nroDocumento
+- String apellido
+- String nombre
+}
+
+class Cliente {
+- String razonSocial
+- long telefono
++ void registrarPedido(Pedido pedido)
++ void cancelarPedido(Pedido pedido)
+}
+
+class Pedido {
+- date fechaEntrega
+- time horaentrega
+- String observaciones
+- boolean cancelado
++ void entregar()
++ void cancelar()
++ void generarFactura()
++ double calcularImporte()
+}
+
+class DetallePedido {
+- int cantidad
+- double precio
+}
+
+class Producto {
+- String nombre
+- int tamano
+- String unidadMedida
+- double precio
+}
+
+class Domicilio {
+- String calle
+- String depto
+- int piso
+}
+
+class Barrio {
+- String nombre
+}
+
+class Zona {
+- String nombre
++ Date getEstimacionEntrega()
+}
+
+enum PeriodoVenta {
++ INVIERNO
++ VERANO
+}
+
+enum MedioPago {
++ CONTADO
++ CHEQUE
++ ELECTRONICO
+}
+
+enum TipoDocumento {
++ DNI
++ PASAPORTE
++ LC
++ LE
+}
+
+
+class Factura {
+- int numero
+- boolean anulada
++ anular()
++ agregarPago(Pago pago)
+}
+
+class Pagos {
+- importe
+- String datosBancarios
+}
+
+Persona <|-- Distribuidor
+Persona <|-- Cliente
+Distribuidor "1" o-- "1" Zona
+Zona "1" o-- "*" Barrio
+Barrio "0..1" o-- "*" Domicilio
+Cliente "1" o-- "*" Pedido
+Factura "0..1" -- "1" Pedido
+Pedido "1" *-- "*" DetallePedido
+DetallePedido "1" -- "1" Producto
+Pedido "1" *-- "1" PeriodoVenta
+Factura "1" *-- "*" Pagos
+Pagos "1" *-- "1" MedioPago
+Cliente"1" *-- "1" Domicilio
+Persona "1" *-- "1" TipoDocumento
+
+@enduml

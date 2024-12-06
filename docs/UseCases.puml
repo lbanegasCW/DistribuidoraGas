@@ -1,0 +1,53 @@
+@startuml
+
+!theme plain
+
+skinparam linetype ortho
+
+left to right direction
+
+skinparam actor {
+  BackgroundColor LightBlue
+  BorderColor Blue
+}
+
+usecase "Consultar entrega" as UC_ConsultarEntrega
+usecase "Registrar entregas del dia" as UC_RegistrarEntregas
+usecase "Consultar ingresos por periodo" as UC_ConsultarEntregasPeriodo
+usecase "Consultar ingresos del dia" as UC_ConsultarEntregasDiarias
+usecase "Gestionar Entregas" as UC_GestionarEntregas
+usecase "Registrar Pedido" as UC_RegistrarPedido
+usecase "Cancelar Pedido" as UC_ModificarPedido
+usecase "Gestionar Pedidos" as UC_GestionarPedidos
+usecase "Consultar pedidos pendientes" as UC_ConsultarEntregas
+usecase "Registrar Producto" as UC_RegistrarProducto
+usecase "Modificar Producto" as UC_ModificarProducto
+usecase "Gestionar Productos" as UC_GestionarProductos
+usecase "Registrar Distribuidor" as UC_RegistrarDistribuidor
+usecase "Modificar Distribuidor" as UC_ModificarDistribuidor
+usecase "Gestionar Distribuidores" as UC_GestionarDistribuidores
+usecase "Registrar Cliente" as UC_RegistrarCliente
+usecase "Modificar Cliente" as UC_ModificarCliente
+usecase "Gestionar Clientes" as UC_GestionarClientes
+
+Operador --> UC_GestionarEntregas
+Operador --> UC_GestionarPedidos
+Operador --> UC_GestionarProductos
+Operador --> UC_GestionarDistribuidores
+Operador --> UC_GestionarClientes
+
+UC_RegistrarCliente .u.> UC_GestionarClientes : <<extend>>
+UC_ModificarCliente .u.> UC_GestionarClientes : <<extend>>
+UC_RegistrarDistribuidor .u.> UC_GestionarDistribuidores : <<extend>>
+UC_ModificarDistribuidor .u.> UC_GestionarDistribuidores : <<extend>>
+UC_RegistrarProducto .u.> UC_GestionarProductos : <<extend>>
+UC_ModificarProducto .u.> UC_GestionarProductos : <<extend>>
+UC_RegistrarPedido .u.> UC_GestionarPedidos : <<extend>>
+UC_ModificarPedido .u.> UC_GestionarPedidos : <<extend>>
+UC_ConsultarEntregas .u.> UC_GestionarPedidos: <<extend>>
+UC_RegistrarEntregas .u.> UC_GestionarEntregas: <<extend>>
+UC_ConsultarEntregasDiarias .u.> UC_GestionarEntregas: <<extend>>
+UC_ConsultarEntregasPeriodo .u.> UC_GestionarEntregas: <<extend>>
+UC_ConsultarEntrega .u.> UC_GestionarEntregas: <<extend>>
+
+@enduml

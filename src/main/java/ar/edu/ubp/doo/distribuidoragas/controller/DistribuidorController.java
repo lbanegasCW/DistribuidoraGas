@@ -8,15 +8,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.sql.SQLException;
 
-public class DistribuidorController {
-    DistribuidorView view;
+public abstract class DistribuidorController extends BaseController<Distribuidor> {
 
     @FXML
     private ComboBox<TipoDocumento> tipoDocumentoComboBox;
@@ -31,6 +29,7 @@ public class DistribuidorController {
 
     private int idDistribuidor;
 
+    @Override
     public void initialize() {
         try {
             ObservableList<TipoDocumento> tipoDocumentoObservableList =
@@ -45,11 +44,8 @@ public class DistribuidorController {
         }
     }
 
-    public void setViewParent(DistribuidorView view) {
-        this.view = view;
-    }
-
-    public void cargarDistribuidorParaEdicion(DistribuidorDTO distribuidorDTO) {
+    @Override
+    public void cargarEntidadParaEdicion(DistribuidorDTO distribuidorDTO) {
         idDistribuidor = Integer.parseInt(distribuidorDTO.getId());
 
         tipoDocumentoComboBox.setValue(TipoDocumento.fromValue(distribuidorDTO.getTipoDocumento()));
@@ -68,67 +64,40 @@ public class DistribuidorController {
 
     @FXML
     public void onGuardarDistribuidor() {
-        if (numeroDocumentoField.getText() == null || numeroDocumentoField.getText().isEmpty() ||
-                nombreField.getText().isEmpty() || apellidoField.getText().isEmpty() ||
-                zonaComboBox.getValue() == null) {
-
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Faltan campos");
-            alert.setContentText("Por favor complete todos los campos obligatorios.");
-            alert.showAndWait();
+        if (!validarCampos(numeroDocumentoField, nombreField, apellidoField)) {
+            mostrarAlerta(Alert.AlertType.ERROR, "Error", "Faltan campos", "Por favor complete todos los campos obligatorios.");
             return;
         }
 
-        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmAlert.setTitle("Confirmación");
-        confirmAlert.setHeaderText("¿Estás seguro de que deseas guardar este distribuidor?");
-        confirmAlert.setContentText("Haz clic en 'Sí' para guardar o 'No' para cancelar.");
+        Distribuidor distribuidor = new DistribuidorFactory().crearPersona(
+                tipoDocumentoComboBox.getValue(),
+                numeroDocumentoField.getText(),
+                nombreField.getText(),
+                apellidoField.getText(),
+                zonaComboBox.getValue()
+        );
 
-        confirmAlert.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
+        if (idDistribuidor != 0) {
+            distribuidor.setIdDistribuidor(idDistribuidor);
+        }
 
-                Distribuidor distribuidor = new DistribuidorFactory().crearPersona(
-                        tipoDocumentoComboBox.getValue(),
-                        numeroDocumentoField.getText(),
-                        nombreField.getText(),
-                        apellidoField.getText(),
-                        zonaComboBox.getValue()
-                );
+        guardarEntidad(distribuidor, "Distribuidor");
+    }
 
-                if (idDistribuidor != 0) {
-                    distribuidor.setIdDistribuidor(idDistribuidor);
-                }
-
-                boolean success = new DistribuidorModel().guardarDistribuidor(distribuidor);
-
-                if (success) {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Distribuidor Guardado");
-                    alert.setHeaderText("El distribuidor ha sido guardado exitosamente.");
-                    alert.showAndWait();
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error al Guardar");
-                    alert.setHeaderText("Hubo un error al guardar el distribuidor.");
-                    alert.showAndWait();
-                }
-
-                Stage stage = (Stage) apellidoField.getScene().getWindow();
-                stage.close();
-
-            } else {
-                System.out.println("Operación de guardado cancelada.");
-            }
-        });
-
-        view.onSearch();
+    @Override
+    protected boolean guardarEnBaseDeDatos(Distribuidor distribuidor) {
+        return new DistribuidorModel().guardarDistribuidor(distribuidor);
     }
 
     @FXML
     public void onCancelar() {
         Stage stage = (Stage) apellidoField.getScene().getWindow();
-        stage.close();
+        cerrarVentana(stage);
+    }
+
+    @Override
+    public void setViewParent(Object view) {
+        this.view = view;
     }
 
 }

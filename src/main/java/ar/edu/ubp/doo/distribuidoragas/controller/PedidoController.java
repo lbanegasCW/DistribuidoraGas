@@ -61,6 +61,38 @@ public class PedidoController {
 
     @FXML
     public void onGuardarPedido() {
+        validarFormulario(() -> {
+            System.out.println("El pedido ha sido guardado exitosamente.");
+            List<PedidoDetalle> pedidoDetalles = new ArrayList<>();
+            for (Producto producto: productosSeleccionados) {
+                PedidoDetalle pedidoDetalle = new PedidoDetalle();
+                pedidoDetalle.setCantidad(1); //TODO: Cantidad
+                pedidoDetalle.setPrecio(producto.getPrecio());
+                pedidoDetalle.setProducto(producto);
+                pedidoDetalles.add(pedidoDetalle);
+            }
+
+            Pedido pedido = new Pedido(new EstadoPedidoCotizado());
+            pedido.setPedidoDetalles(pedidoDetalles);
+
+            if (pedido.procesar()) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Pedido Guardado");
+                alert.setHeaderText("El pedido ha sido guardado exitosamente.");
+                alert.showAndWait();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error al Guardar");
+                alert.setHeaderText("Hubo un error al guardar el cliente.");
+                alert.showAndWait();
+            }
+
+            Stage stage = (Stage) observaciones.getScene().getWindow();
+            stage.close();
+        });
+    }
+
+    public void validarFormulario(Runnable callback) {
         if (observaciones.getText() == null || observaciones.getText().isEmpty() ||
                 clienteCombobox.getValue() == null || !getProductosSeleccionados().isEmpty()) {
 
@@ -79,33 +111,7 @@ public class PedidoController {
 
         confirmAlert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-                List<PedidoDetalle> pedidoDetalles = new ArrayList<>();
-                for (Producto producto: productosSeleccionados) {
-                    PedidoDetalle pedidoDetalle = new PedidoDetalle();
-                    pedidoDetalle.setCantidad(1); //TODO: Cantidad
-                    pedidoDetalle.setPrecio(producto.getPrecio());
-                    pedidoDetalle.setProducto(producto);
-                    pedidoDetalles.add(pedidoDetalle);
-                }
-
-                Pedido pedido = new Pedido(new EstadoPedidoCotizado());
-                pedido.setPedidoDetalles(pedidoDetalles);
-
-                if (pedido.procesar()) {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Pedido Guardado");
-                    alert.setHeaderText("El pedido ha sido guardado exitosamente.");
-                    alert.showAndWait();
-                } else {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error al Guardar");
-                    alert.setHeaderText("Hubo un error al guardar el cliente.");
-                    alert.showAndWait();
-                }
-
-                Stage stage = (Stage) observaciones.getScene().getWindow();
-                stage.close();
-
+                callback.run();
             } else {
                 System.out.println("Operación de guardado cancelada.");
             }

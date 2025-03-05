@@ -105,7 +105,7 @@ public class DistribuidorView {
             }
 
             distribuidorControllerForm.setViewParent(this);
-            distribuidorControllerForm.cargarDistribuidorParaEdicion(selected);
+            distribuidorControllerForm.cargarEntidadParaEdicion(selected);
 
             Scene scene = new Scene(root);
             Stage stage = new Stage();

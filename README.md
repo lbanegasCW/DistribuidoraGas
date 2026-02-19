@@ -53,6 +53,8 @@ Flujo típico:
 
 ### 4.1 Menú principal
 
+<img width="238" height="430" alt="image" src="https://github.com/user-attachments/assets/689fdf90-d292-4e0b-8320-138aa35ac23f" />
+
 `Main` levanta `menu-view.fxml` y `MenuView` abre las ventanas de gestión:
 
 - Clientes (`clientes-view.fxml`)
@@ -60,7 +62,10 @@ Flujo típico:
 - Productos (`productos-view.fxml`)
 - Pedidos (`pedidos-view.fxml`)
 
+
 ### 4.2 Gestión de clientes
+
+<img width="881" height="493" alt="image" src="https://github.com/user-attachments/assets/cffe27cd-037d-45fc-9c88-a56b94a0f9a3" />
 
 - Vista: `ClienteView`
 - Formulario: `ClienteController`
